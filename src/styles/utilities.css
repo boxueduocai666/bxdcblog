@@ -1,0 +1,131 @@
+/* =========================================================
+   BXDC Blog — unified glass + mobile interaction refinements
+   Replace src/styles/utilities.css with this complete file.
+   ========================================================= */
+
+/* Keep the original utility classes. */
+[hidden] { display: none !important; }
+.text-muted { color: var(--text-muted); }
+
+/* Remove the browser's abrupt tap flash on touch devices.
+   Keyboard focus remains visible through :focus-visible in base.css. */
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+button,
+a,
+[role="button"] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Shared glass recipe: match cards to the navigation bar.
+   Desktop: 18px blur, 66% tint, 145% saturation. */
+:root {
+  --glass-unified-blur: var(--glass-navigation-blur, 18px);
+  --glass-unified-tint: var(--glass-navigation-tint, 66%);
+  --glass-unified-saturation: 145%;
+}
+
+@supports ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
+  .glass-surface:not(.site-header),
+  .post-card,
+  .profile-card,
+  .widget,
+  .taxonomy-card,
+  .tag-index__item,
+  .about-copy,
+  .admin-panel,
+  .music-popover {
+    background: color-mix(
+      in srgb,
+      var(--bg-elevated, var(--surface)) var(--glass-unified-tint),
+      transparent
+    );
+    -webkit-backdrop-filter:
+      blur(var(--glass-unified-blur)) saturate(var(--glass-unified-saturation));
+    backdrop-filter:
+      blur(var(--glass-unified-blur)) saturate(var(--glass-unified-saturation));
+  }
+}
+
+/* Fallback for browsers without backdrop-filter / color-mix. */
+.glass-surface:not(.site-header),
+.post-card,
+.profile-card,
+.widget,
+.taxonomy-card,
+.tag-index__item,
+.about-copy,
+.admin-panel,
+.music-popover {
+  border-color: var(--glass-edge, var(--line));
+  box-shadow: var(--glass-shadow, 0 8px 24px rgba(25, 25, 20, .07));
+}
+
+/* Keep text readable when a card sits over a detailed background image. */
+.post-card,
+.profile-card,
+.widget,
+.taxonomy-card,
+.tag-index__item,
+.about-copy,
+.admin-panel,
+.music-popover {
+  color: var(--text);
+}
+
+/* The hero copy can sit directly over the scenic background.
+   Give the text area a restrained translucent backing without turning
+   the whole hero into another large card. */
+.hero-copy {
+  padding: 16px 18px;
+  border: 1px solid color-mix(in srgb, var(--glass-edge, var(--line)) 72%, transparent);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--bg-elevated, var(--surface)) 58%, transparent);
+  box-shadow: 0 8px 28px rgba(25, 25, 20, .045);
+}
+
+@supports ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
+  .hero-copy {
+    -webkit-backdrop-filter: blur(10px) saturate(135%);
+    backdrop-filter: blur(10px) saturate(135%);
+  }
+}
+
+/* Mobile: use the same navigation treatment, with a lighter 10px blur
+   to preserve scrolling smoothness on phones. */
+@media (max-width: 760px) {
+  :root {
+    --glass-unified-blur: 10px;
+  }
+
+  .glass-surface:not(.site-header),
+  .post-card,
+  .profile-card,
+  .widget,
+  .taxonomy-card,
+  .tag-index__item,
+  .about-copy,
+  .admin-panel,
+  .music-popover {
+    box-shadow:
+      0 8px 24px rgba(25, 25, 20, .065),
+      inset 0 1px rgba(255, 255, 255, .42);
+  }
+
+  .hero-copy {
+    padding: 13px 14px;
+    background: color-mix(in srgb, var(--bg-elevated, var(--surface)) 72%, transparent);
+  }
+}
+
+/* Respect users who prefer less motion. */
+@media (prefers-reduced-motion: reduce) {
+  .post-card,
+  .taxonomy-card,
+  .icon-button,
+  .tool-button {
+    transform: none !important;
+    transition: none !important;
+  }
+}
