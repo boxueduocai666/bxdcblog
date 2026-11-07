@@ -1,4 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="boxueduocai avatar">
-  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f5d9bd"/><stop offset="1" stop-color="#b96b3b"/></linearGradient><filter id="s"><feGaussianBlur stdDeviation="8"/></filter></defs>
-  <rect width="160" height="160" rx="42" fill="#f3e8d8"/><circle cx="120" cy="35" r="34" fill="#fff" opacity=".55" filter="url(#s)"/><circle cx="80" cy="73" r="42" fill="url(#g)"/><path d="M29 148c5-31 23-47 51-47s46 16 51 47" fill="#4a5147"/><path d="M55 70c8-17 38-23 52-5" fill="none" stroke="#fff4e8" stroke-width="5" stroke-linecap="round" opacity=".8"/><circle cx="66" cy="78" r="4" fill="#443b32"/><circle cx="94" cy="78" r="4" fill="#443b32"/>
-</svg>
