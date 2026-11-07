@@ -1,0 +1,115 @@
+/* =========================================================
+   BXDC Blog — unified glass + mobile interaction refinements
+   ========================================================= */
+
+[hidden] { display: none !important; }
+.text-muted { color: var(--text-muted); }
+
+html,
+button,
+a,
+[role="button"] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Match the navigation glass, while making content cards brighter. */
+:root {
+  --glass-unified-blur: var(--glass-navigation-blur, 18px);
+  --glass-unified-saturation: 145%;
+}
+
+@supports ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
+  .glass-surface:not(.site-header),
+  .post-card,
+  .profile-card,
+  .widget,
+  .taxonomy-card,
+  .tag-index__item,
+  .about-copy,
+  .admin-panel,
+  .music-popover {
+    background: color-mix(
+      in srgb,
+      var(--bg-elevated, var(--surface)) var(--glass-panel-tint, 88%),
+      transparent
+    );
+    -webkit-backdrop-filter: blur(var(--glass-unified-blur)) saturate(var(--glass-unified-saturation));
+    backdrop-filter: blur(var(--glass-unified-blur)) saturate(var(--glass-unified-saturation));
+  }
+}
+
+/* Solid fallbacks remain legible if backdrop-filter is unavailable. */
+.glass-surface:not(.site-header),
+.post-card,
+.profile-card,
+.widget,
+.taxonomy-card,
+.tag-index__item,
+.about-copy,
+.admin-panel,
+.music-popover {
+  border-color: var(--glass-edge, var(--line));
+  box-shadow: var(--glass-shadow, 0 8px 24px rgba(25, 25, 20, .07));
+}
+
+.glass-surface:not(.site-header),
+.post-card,
+.profile-card,
+.widget,
+.taxonomy-card,
+.tag-index__item,
+.about-copy,
+.admin-panel,
+.music-popover {
+  color: var(--text);
+}
+
+/* A small backing keeps hero copy readable over the mountain wallpaper. */
+.hero-copy {
+  padding: 16px 18px;
+  border: 1px solid color-mix(in srgb, var(--glass-edge, var(--line)) 78%, transparent);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--bg-elevated, var(--surface)) 76%, transparent);
+  box-shadow: 0 8px 28px rgba(25, 25, 20, .05);
+}
+
+@supports ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
+  .hero-copy {
+    -webkit-backdrop-filter: blur(10px) saturate(135%);
+    backdrop-filter: blur(10px) saturate(135%);
+  }
+}
+
+/* Phone browsers use a lighter blur to avoid excess scrolling/compositing cost. */
+@media (max-width: 760px) {
+  :root { --glass-unified-blur: 10px; }
+
+  .glass-surface:not(.site-header),
+  .post-card,
+  .profile-card,
+  .widget,
+  .taxonomy-card,
+  .tag-index__item,
+  .about-copy,
+  .admin-panel,
+  .music-popover {
+    box-shadow:
+      0 8px 24px rgba(25, 25, 20, .065),
+      inset 0 1px rgba(255, 255, 255, .50);
+  }
+
+  .hero-copy {
+    padding: 13px 14px;
+    background: color-mix(in srgb, var(--bg-elevated, var(--surface)) 82%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .post-card,
+  .taxonomy-card,
+  .icon-button,
+  .tool-button {
+    transform: none !important;
+    transition: none !important;
+  }
+}
