@@ -1,0 +1,15 @@
+---
+import type { BlogPost } from '../../lib/content';
+import { getTags } from '../../lib/content';
+import { taxonomyUrl, withBase } from '../../lib/urls';
+interface Props { posts: BlogPost[]; limit?: number; }
+const { posts, limit = 12 } = Astro.props;
+const tags = getTags(posts).slice(0, limit);
+---
+<section class="widget glass-surface">
+  <div class="widget-heading"><span>INDEX / 01</span><h2>常用标签</h2></div>
+  <div class="tag-cloud">
+    {tags.map((tag) => <a class="tag-chip" href={taxonomyUrl('tags', tag.name)}>{tag.name}<sup>{tag.count}</sup></a>)}
+  </div>
+  <a class="widget-more" href={withBase('/tags/')}>全部标签 ↗</a>
+</section>

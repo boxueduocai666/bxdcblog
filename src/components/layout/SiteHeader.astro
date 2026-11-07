@@ -1,0 +1,29 @@
+---
+import { siteConfig } from '../../config/site';
+import { featureConfig } from '../../config/features';
+import { withBase } from '../../lib/urls';
+import GlassSurface from '../glass/GlassSurface.astro';
+import SearchDialog from '../navigation/SearchDialog.astro';
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+const homePath = withBase('/').replace(/\/$/, '') || '/';
+---
+<header class="site-header-wrap">
+  <GlassSurface as="div" class="site-header">
+    <a class="brand" href={withBase('/')} aria-label={`${siteConfig.shortTitle} 首页`}>
+      <img src={withBase('/assets/images/mark.svg')} alt="" width="34" height="34" />
+      <span>{siteConfig.shortTitle}<small>PERSONAL NOTES</small></span>
+    </a>
+    <nav class="primary-nav" aria-label="主导航">
+      {siteConfig.navigation.map((item) => {
+        const href = withBase(item.href);
+        const isActive = item.href === '/' ? currentPath === homePath : currentPath.startsWith(href.replace(/\/$/, ''));
+        return <a href={href} class:list={{ active: isActive }}>{item.label}</a>;
+      })}
+    </nav>
+    <div class="header-actions">
+      {featureConfig.search && <button class="icon-button search-trigger" type="button" data-search-open aria-label="搜索文章"><span class="search-symbol" aria-hidden="true"></span></button>}
+      {featureConfig.themeToggle && <button class="icon-button" type="button" data-theme-toggle aria-label="切换明暗主题"><span class="theme-symbol" aria-hidden="true">◐</span></button>}
+    </div>
+  </GlassSurface>
+</header>
+<SearchDialog />

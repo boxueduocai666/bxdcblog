@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { integrationConfig } from '../config/integrations';
+import { withBase } from '../lib/urls';
+const { enabled, envId, scriptUrl } = integrationConfig.twikoo;
+---
+<BaseLayout title="评论管理 · boxueduocai" description="Twikoo 评论管理入口。">
+  <section class="subpage-heading"><span>MAINTENANCE</span><h1>评论管理</h1><p>登录 Twikoo 管理员账号后管理评论。本站不会在页面中保存管理员凭据。</p></section>
+  <section class="admin-panel glass-surface">
+    {enabled ? <div id="twikoo-admin" data-env-id={envId}><p>评论管理组件加载中……</p></div> : <p>评论系统当前未启用。</p>}
+    <a class="back-link" href={withBase('/')}>← 返回博客</a>
+  </section>
+</BaseLayout>
+<script is:inline src={enabled ? scriptUrl : undefined}></script>
+<script is:inline>
+  (() => {
+    const target = document.getElementById('twikoo-admin');
+    if (!target) return;
+    const init = () => {
+      if (!target || !window.twikoo) return false;
+      window.twikoo.init({ envId: target.dataset.envId, el: '#twikoo-admin', lang: 'zh-CN' });
+      return true;
+    };
+    if (!init()) window.addEventListener('load', init, { once: true });
+  })();
+</script>

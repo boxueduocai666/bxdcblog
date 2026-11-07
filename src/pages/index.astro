@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostList from '../components/posts/PostList.astro';
+import ProfileCard from '../components/widgets/ProfileCard.astro';
+import TagCloud from '../components/widgets/TagCloud.astro';
+import { siteConfig } from '../config/site';
+import { getPublishedPosts, getCategories } from '../lib/content';
+import { withBase } from '../lib/urls';
+const posts = await getPublishedPosts();
+const pinnedPosts = posts.filter((post) => post.data.pinned);
+const categories = getCategories(posts);
+const latestPosts = posts.slice(0, 8);
+---
+<BaseLayout>
+  <section class="home-hero">
+    <div class="hero-copy">
+      <span class="eyebrow">{siteConfig.hero.eyebrow}</span>
+      <h1>{siteConfig.hero.title}<br /><span>{siteConfig.hero.subtitle}</span></h1>
+      <p>{siteConfig.hero.intro}</p>
+      <div class="hero-actions">
+        <a class="button-primary" href="#latest">开始阅读 <span aria-hidden="true">↓</span></a>
+        <a class="button-quiet" href={withBase('/about/')}>关于本站 ↗</a>
+      </div>
+    </div>
+    <div class="hero-orbit" aria-hidden="true"><span></span><i></i><b></b></div>
+    <div class="hero-index"><span>NOTES</span><strong>{String(posts.length).padStart(2, '0')}</strong><span>ARTICLES</span></div>
+  </section>
+
+  <div class="home-grid">
+    <section class="content-column" id="latest">
+      <div class="section-heading section-heading--row">
+        <div><span>THE JOURNAL</span><h2>最近的文章</h2></div>
+        <a href={withBase('/archives/')} class="text-link">全部归档 ↗</a>
+      </div>
+      {pinnedPosts.length > 0 && <div class="pinned-strip"><span>置顶</span>{pinnedPosts.map((post) => <a href={withBase(`/posts/${post.id}/`)}>{post.data.title}</a>)}</div>}
+      <PostList posts={latestPosts} />
+      {posts.length > latestPosts.length && <a class="load-more" href={withBase('/archives/')}>浏览全部文章 <span>↗</span></a>}
+    </section>
+
+    <aside class="sidebar-column">
+      <ProfileCard />
+      <section class="widget glass-surface">
+        <div class="widget-heading"><span>INDEX / 02</span><h2>文章分类</h2></div>
+        <ul class="category-list">
+          {categories.map((category) => <li><a href={withBase(`/categories/${encodeURIComponent(category.slug)}/`)}><span>{category.name}</span><b>{category.count}</b></a></li>)}
+        </ul>
+        <a class="widget-more" href={withBase('/categories/')}>全部分类 ↗</a>
+      </section>
+      <TagCloud posts={posts} />
+      <div class="quiet-note"><span>✳</span><p>慢一点阅读，<br />也慢一点生活。</p></div>
+    </aside>
+  </div>
+</BaseLayout>

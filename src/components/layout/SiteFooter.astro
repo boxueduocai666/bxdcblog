@@ -1,0 +1,11 @@
+---
+import { siteConfig } from '../../config/site';
+import { withBase } from '../../lib/urls';
+---
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <span>{siteConfig.footer}</span>
+    <span>用一点好奇心，记录沿途风景。</span>
+    <a href={withBase('/rss.xml')}>RSS 订阅 ↗</a>
+  </div>
+</footer>

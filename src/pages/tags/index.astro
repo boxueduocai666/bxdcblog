@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPublishedPosts, getTags } from '../../lib/content';
+import { taxonomyUrl } from '../../lib/urls';
+const posts = await getPublishedPosts();
+const tags = getTags(posts);
+---
+<BaseLayout title="标签索引 · boxueduocai">
+  <section class="subpage-heading"><span>TAG INDEX</span><h1>标签索引</h1><p>从一个关键词，找到相关的记录。</p></section>
+  <div class="tag-index">{tags.map((tag) => <a class="tag-index__item" href={taxonomyUrl('tags', tag.name)}><span>#{tag.name}</span><small>{tag.count} 篇</small></a>)}</div>
+</BaseLayout>

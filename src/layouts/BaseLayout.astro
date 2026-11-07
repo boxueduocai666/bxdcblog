@@ -1,0 +1,55 @@
+---
+import '../styles/index.css';
+import { siteConfig } from '../config/site';
+import { appearanceConfig } from '../config/appearance';
+import { featureConfig } from '../config/features';
+import { withBase } from '../lib/urls';
+import PageFrame from '../components/layout/PageFrame.astro';
+import ReadingProgress from '../components/reader/ReadingProgress.astro';
+interface Props { title?: string; description?: string; article?: boolean; }
+const { title = siteConfig.title, description = siteConfig.description, article = false } = Astro.props;
+const basePath = import.meta.env.BASE_URL || '/';
+const canonicalPath = Astro.url.pathname.startsWith(basePath) ? Astro.url.pathname : withBase(Astro.url.pathname);
+const canonical = Astro.site ? new URL(canonicalPath, Astro.site).toString() : undefined;
+const appearanceVars = `--accent:${appearanceConfig.accent};--glass-navigation-blur:${appearanceConfig.glass.navigationBlur}px;--glass-panel-blur:${appearanceConfig.glass.panelBlur}px;--glass-navigation-tint:${appearanceConfig.glass.navigationTint};--glass-panel-tint:${appearanceConfig.glass.panelTint};--motion-fast:${appearanceConfig.motion.microInteractionMs}ms;--motion-normal:${appearanceConfig.motion.revealMs}ms;`; 
+---
+<!doctype html>
+<html lang={siteConfig.language} data-theme="light" data-default-theme={appearanceConfig.defaultTheme} style={appearanceVars}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f1e9" />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={article ? "article" : "website"} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    <meta name="twitter:card" content="summary" />
+    <meta name="color-scheme" content="light dark" />
+    <title>{title}</title>
+    {canonical && <link rel="canonical" href={canonical} />}
+    <link rel="icon" type="image/svg+xml" href={withBase('/assets/images/mark.svg')} />
+    <link rel="alternate" type="application/rss+xml" title={`${siteConfig.shortTitle} RSS`} href={withBase('/rss.xml')} />
+    <script is:inline>
+      (() => {
+        try {
+          const saved = localStorage.getItem('bxdc-theme');
+          const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const defaultTheme = document.documentElement.dataset.defaultTheme;
+          const fallback = defaultTheme === 'light' || defaultTheme === 'dark' ? defaultTheme : (systemDark ? 'dark' : 'light');
+          document.documentElement.dataset.theme = saved === 'light' || saved === 'dark' ? saved : fallback;
+        } catch (_) {
+          document.documentElement.dataset.theme = 'light';
+        }
+      })();
+    </script>
+  </head>
+  <body class:list={{ 'is-article-page': article }}>
+    <a class="skip-link" href="#main-content">跳转到正文</a>
+    {article && featureConfig.readingProgress && <ReadingProgress />}
+    <PageFrame><slot /></PageFrame>
+    <script>
+      import '../scripts/main';
+    </script>
+  </body>
+</html>

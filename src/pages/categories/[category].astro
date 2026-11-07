@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostList from '../../components/posts/PostList.astro';
+import { getPublishedPosts } from '../../lib/content';
+import { slugify } from '../../lib/urls';
+export async function getStaticPaths() {
+  const entries = await getPublishedPosts();
+  const names = [...new Set(entries.map((post) => post.data.category))];
+  return names.map((category) => ({ params: { category: slugify(category) }, props: { category, posts: entries.filter((post) => post.data.category === category) } }));
+}
+const { category, posts: categoryPosts } = Astro.props;
+---
+<BaseLayout title={`${category} · 文章分类`}>
+  <section class="subpage-heading"><span>TOPIC / CATEGORY</span><h1>{category}</h1><p>这个分类下的全部文章。</p></section>
+  <PostList posts={categoryPosts} />
+</BaseLayout>

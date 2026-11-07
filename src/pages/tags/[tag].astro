@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostList from '../../components/posts/PostList.astro';
+import { getPublishedPosts } from '../../lib/content';
+import { slugify } from '../../lib/urls';
+const posts = await getPublishedPosts();
+export async function getStaticPaths() {
+  const allPosts = await getPublishedPosts();
+  const tags = [...new Set(allPosts.flatMap((post) => post.data.tags))];
+  return tags.map((tag) => ({ params: { tag: slugify(tag) }, props: { tag, posts: allPosts.filter((post) => post.data.tags.includes(tag)) } }));
+}
+const { tag, posts: tagPosts } = Astro.props;
+---
+<BaseLayout title={`#${tag} · 标签`}>
+  <section class="subpage-heading"><span>TAG / COLLECTION</span><h1>#{tag}</h1><p>带有这个标签的文章。</p></section>
+  <PostList posts={tagPosts} />
+</BaseLayout>

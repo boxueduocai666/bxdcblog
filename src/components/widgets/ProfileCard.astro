@@ -1,0 +1,15 @@
+---
+import { siteConfig } from '../../config/site';
+import { withBase } from '../../lib/urls';
+---
+<aside class="profile-card glass-surface">
+  <img class="profile-avatar" src={withBase(siteConfig.author.avatar)} alt={`${siteConfig.author.name} 的头像`} width="76" height="76" />
+  <div>
+    <h2>{siteConfig.author.name}</h2>
+    <p>{siteConfig.author.bio}</p>
+  </div>
+  <div class="profile-links">
+    <a href={siteConfig.author.github} target="_blank" rel="noreferrer">GitHub ↗</a>
+    <a href={siteConfig.author.email}>邮件联系</a>
+  </div>
+</aside>

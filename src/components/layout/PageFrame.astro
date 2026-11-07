@@ -1,0 +1,12 @@
+---
+import SiteHeader from './SiteHeader.astro';
+import SiteFooter from './SiteFooter.astro';
+import MusicPlayer from '../widgets/MusicPlayer.astro';
+import { featureConfig } from '../../config/features';
+---
+<SiteHeader />
+<main id="main-content" class="page-frame">
+  <slot />
+</main>
+<SiteFooter />
+{featureConfig.musicPlayer && <MusicPlayer />}

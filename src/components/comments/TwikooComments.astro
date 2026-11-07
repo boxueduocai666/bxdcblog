@@ -1,0 +1,14 @@
+---
+import { featureConfig } from '../../config/features';
+import { integrationConfig } from '../../config/integrations';
+const enabled = featureConfig.twikooComments && integrationConfig.twikoo.enabled && Boolean(integrationConfig.twikoo.envId);
+---
+{enabled && (
+  <section class="comments-section" id="comments" data-twikoo-env={integrationConfig.twikoo.envId} data-twikoo-script={integrationConfig.twikoo.scriptUrl}>
+    <div class="section-heading"><span>DISCUSSION</span><h2>留下一点想法</h2></div>
+    <div id="twikoo-container" class="twikoo-container">
+      <p class="comments-loading">评论区将在滚动到这里时加载。</p>
+    </div>
+    <noscript><p>评论功能需要启用 JavaScript。</p></noscript>
+  </section>
+)}

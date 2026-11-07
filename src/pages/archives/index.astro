@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostList from '../../components/posts/PostList.astro';
+import { getPublishedPosts } from '../../lib/content';
+const posts = await getPublishedPosts();
+const years = [...new Set(posts.map((post) => post.data.date.getFullYear()))];
+---
+<BaseLayout title="文章归档 · boxueduocai">
+  <section class="subpage-heading"><span>THE ARCHIVE</span><h1>文章归档</h1><p>按时间回看走过的路。</p></section>
+  {years.map((year) => <section class="archive-year"><div class="archive-year__title"><h2>{year}</h2><span>{posts.filter((post) => post.data.date.getFullYear() === year).length} 篇</span></div><PostList posts={posts.filter((post) => post.data.date.getFullYear() === year)} compact /></section>)}
+</BaseLayout>

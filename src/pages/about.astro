@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProfileCard from '../components/widgets/ProfileCard.astro';
+---
+<BaseLayout title="关于 · boxueduocai">
+  <section class="subpage-heading"><span>ABOUT THIS SPACE</span><h1>关于本站</h1><p>一个用来保存想法、记录折腾过程的个人角落。</p></section>
+  <div class="about-grid"><ProfileCard /><section class="about-copy prose"><h2>你好，欢迎来访。</h2><p>这里是 boxueduocai 的个人博客，记录技术实践、工具折腾、日常观察，以及一些不想轻易忘记的想法。</p><p>博客使用 Astro 构建，尽量让页面轻快、结构清晰。液态玻璃是界面的视觉语言，但阅读始终是第一位的。</p><h2>设计信条</h2><blockquote>让用户因为内容而留下，而不是因为动画而停留。</blockquote><p>你可以从首页浏览文章，也可以通过分类、标签和搜索找到感兴趣的内容。</p></section></div>
+</BaseLayout>

@@ -1,0 +1,9 @@
+---
+import type { BlogPost } from '../../lib/content';
+import PostCard from './PostCard.astro';
+interface Props { posts: BlogPost[]; compact?: boolean; }
+const { posts, compact = false } = Astro.props;
+---
+<div class="post-list">
+  {posts.length ? posts.map((post) => <PostCard post={post} compact={compact} />) : <p class="empty-state">这里还没有文章，先去别处逛逛吧。</p>}
+</div>

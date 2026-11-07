@@ -1,0 +1,15 @@
+---
+import { featureConfig } from '../../config/features';
+interface Heading { depth: number; slug: string; text: string; }
+interface Props { headings: Heading[]; }
+const { headings } = Astro.props;
+const items = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 4);
+---
+{featureConfig.tableOfContents && items.length > 1 && (
+  <nav class="article-toc glass-surface" aria-label="文章目录">
+    <div class="widget-heading"><span>ON THIS PAGE</span><h2>目录</h2></div>
+    <ol>
+      {items.map((heading) => <li class:list={{ [`toc-depth-${heading.depth}`]: true }}><a href={`#${heading.slug}`}>{heading.text}</a></li>)}
+    </ol>
+  </nav>
+)}
