@@ -1,0 +1,23 @@
+/*
+ * 文章详情页阅读玻璃底板
+ * 将此规则追加到 src/styles/reader.css 文件末尾。
+ * 玻璃层只模糊卡片后方的背景，文章文字与图片本身保持清晰。
+ */
+.article-main.glass-surface {
+  /* 模糊强度与导航栏保持一致；阅读面板增加不透明度以确保文字对比度。 */
+  --glass-panel-blur: var(--glass-navigation-blur, 18px);
+  --glass-panel-tint: 90%;
+
+  min-width: 0;
+  padding: clamp(20px, 3vw, 34px);
+  border-radius: var(--radius-lg);
+}
+
+/* 移动端沿用导航栏的轻量模糊参数，降低滚动时的合成压力。 */
+@media (max-width: 760px) {
+  .article-main.glass-surface {
+    --glass-panel-blur: 10px;
+    --glass-panel-tint: 90%;
+    padding: 18px 16px;
+  }
+}
