@@ -1,0 +1,17 @@
+/* Article reader uses exactly the same glass material as the main navigation. */
+.article-main.glass-surface {
+  --glass-panel-blur: var(--glass-navigation-blur, 22px);
+  --glass-panel-tint: var(--glass-navigation-tint, 66%);
+  min-width: 0;
+  padding: clamp(20px, 3vw, 34px);
+  border-radius: var(--radius-lg);
+}
+
+/* Keep the same blur on phones; only the radius value is reduced for scrolling performance. */
+@media (max-width: 760px) {
+  .article-main.glass-surface {
+    --glass-panel-blur: 16px;
+    --glass-panel-tint: var(--glass-navigation-tint, 66%);
+    padding: 18px 16px;
+  }
+}
