@@ -1,0 +1,399 @@
+/*
+ * BXDC Blog — neutral translucent liquid glass
+ * Inspired by the original pale, almost colourless frosted-glass treatment.
+ * Keep the wallpaper visible; use blur, edge light and soft refraction rather
+ * than filling the panels with a green/blue colour.
+ */
+
+:root {
+  --glass-bg: rgba(255, 255, 255, .30);
+  --glass-bg-strong: rgba(255, 255, 255, .42);
+  --glass-edge: rgba(255, 255, 255, .82);
+  --glass-highlight: rgba(255, 255, 255, .72);
+  --glass-refraction: rgba(255, 255, 255, .16);
+  --glass-shadow:
+    0 16px 42px rgba(68, 61, 51, .10),
+    0 3px 10px rgba(68, 61, 51, .045),
+    inset 0 1px rgba(255, 255, 255, .92),
+    inset 0 -1px rgba(255, 255, 255, .24);
+}
+
+/* Dark mode stays neutral charcoal rather than turning green. */
+:root[data-theme='dark'] {
+  --bg-elevated: #343431;
+  --surface: #292a28;
+  --surface-muted: #3b3b37;
+  --text: #f0efeb;
+  --text-muted: #c3c1ba;
+  --text-soft: #9d9b94;
+  --line: rgba(255, 255, 255, .15);
+  --glass-bg: rgba(255, 255, 255, .10);
+  --glass-bg-strong: rgba(255, 255, 255, .16);
+  --glass-edge: rgba(255, 255, 255, .34);
+  --glass-highlight: rgba(255, 255, 255, .28);
+  --glass-refraction: rgba(255, 255, 255, .07);
+  --glass-shadow:
+    0 16px 42px rgba(0, 0, 0, .20),
+    0 3px 10px rgba(0, 0, 0, .12),
+    inset 0 1px rgba(255, 255, 255, .28),
+    inset 0 -1px rgba(255, 255, 255, .08);
+}
+
+/* Unified glass body and luminous rim. */
+.glass-surface,
+.hero-copy,
+.hero-index,
+.section-heading,
+.pinned-strip,
+.quiet-note,
+.subpage-heading,
+.archive-year__title,
+.not-found,
+.post-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-color: var(--glass-edge, var(--line));
+  box-shadow: var(--glass-shadow);
+}
+
+.glass-surface {
+  background: var(--glass-bg);
+}
+
+/* Neutral-white translucency, no sea-green colour cast. */
+.glass-surface:not(.site-header) {
+  background: color-mix(
+    in srgb,
+    var(--bg-elevated, var(--surface)) var(--glass-panel-tint, 38%),
+    transparent
+  );
+}
+
+.site-header.glass-surface {
+  background: color-mix(
+    in srgb,
+    var(--bg-elevated, var(--surface)) var(--glass-navigation-tint, 48%),
+    transparent
+  );
+}
+
+.glass-surface::before,
+.hero-copy::before,
+.hero-index::before,
+.section-heading::before,
+.pinned-strip::before,
+.quiet-note::before,
+.subpage-heading::before,
+.archive-year__title::before,
+.not-found::before,
+.post-card::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      136deg,
+      rgba(255, 255, 255, .48) 0%,
+      rgba(255, 255, 255, .10) 24%,
+      transparent 52%,
+      rgba(255, 255, 255, .16) 100%
+    ),
+    radial-gradient(
+      ellipse at 16% 0%,
+      var(--glass-refraction, rgba(255, 255, 255, .12)),
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse at 100% 100%,
+      rgba(255, 255, 255, .10),
+      transparent 48%
+    );
+  opacity: .88;
+}
+
+.glass-surface::after,
+.hero-copy::after,
+.hero-index::after,
+.section-heading::after,
+.pinned-strip::after,
+.quiet-note::after,
+.subpage-heading::after,
+.archive-year__title::after,
+.not-found::after,
+.post-card::after {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  top: 1px;
+  left: 5%;
+  width: 48%;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, .9),
+    transparent
+  );
+  filter: blur(.4px);
+  opacity: .82;
+}
+
+.glass-surface > *,
+.hero-copy > *,
+.hero-index > *,
+.section-heading > *,
+.pinned-strip > *,
+.quiet-note > *,
+.subpage-heading > *,
+.archive-year__title > *,
+.not-found > *,
+.post-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-copy {
+  width: min(100%, 730px);
+  max-width: calc(100% - 126px);
+  padding: clamp(25px, 3.6vw, 40px);
+  border: 1px solid var(--glass-edge);
+  border-radius: 24px;
+  background: var(--glass-bg-strong);
+}
+
+.hero-index {
+  min-width: 112px;
+  padding: 12px 16px;
+  border: 1px solid var(--glass-edge);
+  border-radius: 18px;
+  background: var(--glass-bg);
+  box-shadow: var(--glass-shadow);
+  text-align: center;
+}
+
+.hero-index strong {
+  font-size: 25px;
+  line-height: 1.15;
+}
+
+.home-hero {
+  min-height: 360px;
+  padding: 54px 5.5% 48px;
+}
+
+.home-hero h1 {
+  max-width: 760px;
+  margin: 15px 0 12px;
+  font-size: clamp(34px, 4.4vw, 52px);
+  line-height: 1.2;
+  letter-spacing: -.06em;
+  text-wrap: balance;
+}
+
+.section-heading {
+  margin: 8px 0 20px;
+  padding: 17px 21px;
+  border: 1px solid var(--glass-edge);
+  border-radius: 19px;
+  background: var(--glass-bg);
+}
+
+.section-heading h2 {
+  margin-top: 5px;
+}
+
+.pinned-strip {
+  margin: 0 0 14px;
+  padding: 8px 12px;
+  border: 1px solid var(--glass-edge);
+  border-radius: 15px;
+  background: var(--glass-bg);
+}
+
+.quiet-note {
+  padding: 11px 14px;
+  border: 1px solid var(--glass-edge);
+  border-radius: 16px;
+  background: var(--glass-bg);
+}
+
+.post-card {
+  border: 1px solid var(--glass-edge);
+  background: var(--glass-bg);
+}
+
+.subpage-heading {
+  margin: 28px 0 24px;
+  padding: 25px 28px;
+  border: 1px solid var(--glass-edge);
+  border-radius: 21px;
+  background: var(--glass-bg);
+}
+
+.archive-year__title {
+  padding: 10px 15px;
+  border: 1px solid var(--glass-edge);
+  border-radius: 15px;
+  background: var(--glass-bg);
+}
+
+.not-found {
+  margin: 28px 0;
+  padding: 34px;
+  border: 1px solid var(--glass-edge);
+  border-radius: 22px;
+  background: var(--glass-bg);
+}
+
+@supports ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
+  .glass-surface,
+  .hero-copy,
+  .hero-index,
+  .section-heading,
+  .pinned-strip,
+  .quiet-note,
+  .subpage-heading,
+  .archive-year__title,
+  .not-found,
+  .post-card {
+    -webkit-backdrop-filter: blur(var(--glass-panel-blur, 20px)) saturate(155%) contrast(102%);
+    backdrop-filter: blur(var(--glass-panel-blur, 20px)) saturate(155%) contrast(102%);
+  }
+
+  .site-header.glass-surface {
+    -webkit-backdrop-filter: blur(var(--glass-panel-blur, 24px)) saturate(155%) contrast(102%);
+    backdrop-filter: blur(var(--glass-panel-blur, 24px)) saturate(155%) contrast(102%);
+  }
+}
+
+/* Compact first screen and balanced slogan on phones. */
+@media (max-width: 620px) {
+  .home-hero {
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 11px;
+    padding: 28px 0 18px;
+  }
+
+  .hero-copy {
+    width: 100%;
+    max-width: none;
+    padding: 22px 18px 20px;
+    border-radius: 21px;
+  }
+
+  .home-hero h1 {
+    margin: 12px 0 10px;
+    font-size: clamp(29px, 7.4vw, 37px);
+    line-height: 1.28;
+    letter-spacing: -.052em;
+  }
+
+  .home-hero p {
+    max-width: none;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .hero-actions {
+    gap: 9px;
+    margin-top: 18px;
+  }
+
+  .button-primary,
+  .button-quiet {
+    min-height: 40px;
+    padding-inline: 14px;
+    font-size: 12px;
+  }
+
+  .hero-index {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 8px;
+    align-self: flex-end;
+    min-width: 0;
+    padding: 7px 12px;
+    border-radius: 14px;
+  }
+
+  .hero-index strong {
+    font-size: 18px;
+  }
+
+  .hero-orbit {
+    opacity: .22;
+  }
+
+  .section-heading {
+    margin: 4px 0 15px;
+    padding: 13px 15px;
+    border-radius: 17px;
+  }
+
+  .section-heading h2 {
+    font-size: 20px;
+  }
+
+  .section-heading--row {
+    align-items: center;
+  }
+
+  .pinned-strip {
+    margin-bottom: 13px;
+    padding: 8px 10px;
+  }
+
+  .subpage-heading {
+    margin: 18px 0 18px;
+    padding: 19px 17px;
+  }
+
+  .archive-year__title {
+    padding: 9px 12px;
+  }
+
+  .not-found {
+    padding: 24px 19px;
+  }
+}
+
+/* Slightly lighter blur on phones to preserve scrolling performance. */
+@media (max-width: 760px) {
+  @supports ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
+    .glass-surface,
+    .hero-copy,
+    .hero-index,
+    .section-heading,
+    .pinned-strip,
+    .quiet-note,
+    .subpage-heading,
+    .archive-year__title,
+    .not-found,
+    .post-card {
+      -webkit-backdrop-filter: blur(15px) saturate(145%);
+      backdrop-filter: blur(15px) saturate(145%);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .post-card,
+  .taxonomy-card,
+  .icon-button,
+  .tool-button {
+    transform: none !important;
+    transition: none !important;
+  }
+}
