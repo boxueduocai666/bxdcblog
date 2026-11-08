@@ -1,0 +1,451 @@
+/*
+ * BXDC Blog — unified pale liquid glass
+ * One neutral-white material for navigation, home cards and article reader.
+ * Readability comes from a milky translucent base and dark ink, not dark panels.
+ */
+
+:root {
+  --glass-bg: rgba(255, 255, 255, .66);
+  --glass-bg-strong: rgba(255, 255, 255, .70);
+  --glass-edge: rgba(255, 255, 255, .92);
+  --glass-highlight: rgba(255, 255, 255, .82);
+  --glass-refraction: rgba(255, 255, 255, .20);
+  --glass-shadow:
+    0 16px 42px rgba(52, 66, 62, .12),
+    0 3px 10px rgba(52, 66, 62, .055),
+    inset 0 1px rgba(255, 255, 255, .96),
+    inset 0 -1px rgba(255, 255, 255, .28);
+  --glass-material-blur: 22px;
+  --glass-material-saturation: 135%;
+}
+
+/* Dark-mode preference changes the page theme, not the glass material or its ink. */
+:root[data-theme='dark'] {
+  --glass-bg: rgba(255, 255, 255, .66);
+  --glass-bg-strong: rgba(255, 255, 255, .70);
+  --glass-edge: rgba(255, 255, 255, .92);
+  --glass-highlight: rgba(255, 255, 255, .82);
+  --glass-refraction: rgba(255, 255, 255, .20);
+  --glass-shadow:
+    0 16px 42px rgba(52, 66, 62, .12),
+    0 3px 10px rgba(52, 66, 62, .055),
+    inset 0 1px rgba(255, 255, 255, .96),
+    inset 0 -1px rgba(255, 255, 255, .28);
+}
+
+/* Shared text contrast on every glass surface, including when dark mode is selected. */
+.glass-surface,
+.hero-copy,
+.hero-index,
+.section-heading,
+.pinned-strip,
+.quiet-note,
+.subpage-heading,
+.archive-year__title,
+.not-found,
+.post-card,
+.article-main {
+  --text: #29312e;
+  --text-muted: #59645f;
+  --text-soft: #78837d;
+  --line: rgba(45, 61, 54, .15);
+  --accent: #a95f36;
+  --accent-soft: rgba(185, 107, 59, .12);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: var(--text);
+  border-color: var(--glass-edge);
+  background: var(--glass-bg);
+  box-shadow: var(--glass-shadow);
+}
+
+/* The navigation and all panels use the same neutral white tint. */
+.glass-surface,
+.hero-copy,
+.hero-index,
+.section-heading,
+.pinned-strip,
+.quiet-note,
+.subpage-heading,
+.archive-year__title,
+.not-found,
+.post-card,
+.article-main {
+  background: var(--glass-bg);
+}
+
+/* Luminous rim and very subtle internal reflection; no green/blue colour cast. */
+.glass-surface::before,
+.hero-copy::before,
+.hero-index::before,
+.section-heading::before,
+.pinned-strip::before,
+.quiet-note::before,
+.subpage-heading::before,
+.archive-year__title::before,
+.not-found::before,
+.post-card::before,
+.article-main::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      136deg,
+      rgba(255, 255, 255, .76) 0%,
+      rgba(255, 255, 255, .20) 25%,
+      transparent 54%,
+      rgba(255, 255, 255, .18) 100%
+    ),
+    radial-gradient(
+      ellipse at 14% 0%,
+      var(--glass-refraction),
+      transparent 56%
+    );
+  opacity: .9;
+}
+
+.glass-surface::after,
+.hero-copy::after,
+.hero-index::after,
+.section-heading::after,
+.pinned-strip::after,
+.quiet-note::after,
+.subpage-heading::after,
+.archive-year__title::after,
+.not-found::after,
+.post-card::after,
+.article-main::after {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  top: 1px;
+  left: 5%;
+  width: 48%;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.96), transparent);
+  filter: blur(.4px);
+  opacity: .9;
+}
+
+.glass-surface > *,
+.hero-copy > *,
+.hero-index > *,
+.section-heading > *,
+.pinned-strip > *,
+.quiet-note > *,
+.subpage-heading > *,
+.archive-year__title > *,
+.not-found > *,
+.post-card > *,
+.article-main > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* One blur value for the navbar, homepage panels and article reading surface. */
+@supports ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
+  .glass-surface,
+  .hero-copy,
+  .hero-index,
+  .section-heading,
+  .pinned-strip,
+  .quiet-note,
+  .subpage-heading,
+  .archive-year__title,
+  .not-found,
+  .post-card,
+  .article-main {
+    -webkit-backdrop-filter: blur(var(--glass-material-blur)) saturate(var(--glass-material-saturation)) contrast(103%);
+    backdrop-filter: blur(var(--glass-material-blur)) saturate(var(--glass-material-saturation)) contrast(103%);
+  }
+}
+
+.hero-copy {
+  width: min(100%, 730px);
+  max-width: calc(100% - 126px);
+  padding: clamp(25px, 3.6vw, 40px);
+  border: 1px solid var(--glass-edge);
+  border-radius: 24px;
+}
+
+.hero-index {
+  min-width: 112px;
+  padding: 12px 16px;
+  border: 1px solid var(--glass-edge);
+  border-radius: 18px;
+  text-align: center;
+}
+
+.hero-index strong {
+  color: var(--text);
+  font-size: 25px;
+  line-height: 1.15;
+}
+
+.home-hero {
+  min-height: 360px;
+  padding: 54px 5.5% 48px;
+}
+
+.home-hero h1 {
+  max-width: 760px;
+  margin: 15px 0 12px;
+  color: var(--text);
+  font-size: clamp(34px, 4.4vw, 52px);
+  line-height: 1.2;
+  letter-spacing: -.06em;
+  text-wrap: balance;
+}
+
+.home-hero h1 span,
+.home-hero p {
+  color: var(--text-muted);
+}
+
+.home-hero p {
+  font-size: 15px;
+}
+
+.section-heading {
+  margin: 8px 0 20px;
+  padding: 17px 21px;
+  border: 1px solid var(--glass-edge);
+  border-radius: 19px;
+}
+
+.section-heading h2 {
+  margin-top: 5px;
+  color: var(--text);
+}
+
+.pinned-strip {
+  margin: 0 0 14px;
+  padding: 8px 12px;
+  border: 1px solid var(--glass-edge);
+  border-radius: 15px;
+}
+
+.quiet-note {
+  padding: 11px 14px;
+  border: 1px solid var(--glass-edge);
+  border-radius: 16px;
+}
+
+.post-card {
+  border: 1px solid var(--glass-edge);
+}
+
+.post-card__title,
+.post-card__excerpt {
+  color: var(--text);
+}
+
+.post-meta,
+.post-card__excerpt {
+  color: var(--text-muted);
+}
+
+.subpage-heading {
+  margin: 28px 0 24px;
+  padding: 25px 28px;
+  border: 1px solid var(--glass-edge);
+  border-radius: 21px;
+}
+
+.subpage-heading h1,
+.subpage-heading p {
+  color: var(--text);
+}
+
+.archive-year__title {
+  padding: 10px 15px;
+  border: 1px solid var(--glass-edge);
+  border-radius: 15px;
+}
+
+.not-found {
+  margin: 28px 0;
+  padding: 34px;
+  border: 1px solid var(--glass-edge);
+  border-radius: 22px;
+}
+
+/* The article reader is no longer a separate opaque charcoal panel. */
+.article-main.glass-surface {
+  --glass-panel-blur: var(--glass-navigation-blur, 22px);
+  --glass-panel-tint: var(--glass-navigation-tint, 66%);
+  color: var(--text);
+  background: var(--glass-bg);
+  border-color: var(--glass-edge);
+}
+
+.article-header {
+  border-bottom-color: var(--line);
+}
+
+.article-header h1,
+.article-content,
+.prose,
+.article-excerpt {
+  color: var(--text);
+}
+
+.article-kicker,
+.prose a {
+  color: var(--accent);
+}
+
+.back-link,
+.article-excerpt {
+  color: var(--text-muted);
+}
+
+.article-toc {
+  --text: #29312e;
+  --text-muted: #59645f;
+  color: var(--text);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-edge);
+  box-shadow: var(--glass-shadow);
+}
+
+@media (max-width: 620px) {
+  :root {
+    --glass-material-blur: 16px;
+  }
+
+  .home-hero {
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 11px;
+    padding: 28px 0 18px;
+  }
+
+  .hero-copy {
+    width: 100%;
+    max-width: none;
+    padding: 22px 18px 20px;
+    border-radius: 21px;
+  }
+
+  .home-hero h1 {
+    margin: 12px 0 10px;
+    font-size: clamp(29px, 7.4vw, 37px);
+    line-height: 1.28;
+    letter-spacing: -.052em;
+  }
+
+  .home-hero p {
+    max-width: none;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .hero-actions {
+    gap: 9px;
+    margin-top: 18px;
+  }
+
+  .button-primary,
+  .button-quiet {
+    min-height: 40px;
+    padding-inline: 14px;
+    font-size: 12px;
+  }
+
+  .hero-index {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 8px;
+    align-self: flex-end;
+    min-width: 0;
+    padding: 7px 12px;
+    border-radius: 14px;
+  }
+
+  .hero-index strong {
+    font-size: 18px;
+  }
+
+  .hero-orbit {
+    opacity: .22;
+  }
+
+  .section-heading {
+    margin: 4px 0 15px;
+    padding: 13px 15px;
+    border-radius: 17px;
+  }
+
+  .section-heading h2 {
+    font-size: 20px;
+  }
+
+  .section-heading--row {
+    align-items: center;
+  }
+
+  .pinned-strip {
+    margin-bottom: 13px;
+    padding: 8px 10px;
+  }
+
+  .subpage-heading {
+    margin: 18px 0;
+    padding: 19px 17px;
+  }
+
+  .archive-year__title {
+    padding: 9px 12px;
+  }
+
+  .not-found {
+    padding: 24px 19px;
+  }
+
+  .article-main.glass-surface {
+    --glass-panel-blur: 16px;
+    --glass-panel-tint: var(--glass-navigation-tint, 66%);
+  }
+}
+
+@media (max-width: 760px) {
+  .glass-surface,
+  .hero-copy,
+  .hero-index,
+  .section-heading,
+  .pinned-strip,
+  .quiet-note,
+  .subpage-heading,
+  .archive-year__title,
+  .not-found,
+  .post-card,
+  .article-main {
+    box-shadow:
+      0 9px 25px rgba(52, 66, 62, .09),
+      inset 0 1px rgba(255, 255, 255, .95),
+      inset 0 -1px rgba(255, 255, 255, .24);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .post-card,
+  .taxonomy-card,
+  .icon-button,
+  .tool-button {
+    transform: none !important;
+    transition: none !important;
+  }
+}
